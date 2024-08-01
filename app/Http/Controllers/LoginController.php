@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -77,7 +78,7 @@ class LoginController extends Controller
     }
     public function adminUpdate(User $user, Request $request)
     {
-        $data = $request->except(['avatar', '_token','_method']);
+        $data = $request->except(['avatar', '_token', '_method']);
         $old_avatar = $user->avatar;
         $data['avatar'] = $old_avatar;
         if ($request->hasFile('avatar')) {
@@ -87,5 +88,33 @@ class LoginController extends Controller
         // $user->update($data);
         User::where('id', '=', $user->id)->update($data);
         return redirect()->route('user.list');
+    }
+
+
+    public function changePassword()
+    {
+        // $gene = Gene::query()->get();
+        $pass = 'change';
+        return View('login.edit-password', compact('pass'));
+    }
+    public function updatePassword(Request $request, User $user)
+    {
+        $request->validate(
+            [
+                'password' => [
+                    'required',
+                    function ($arr, $value, $error) {
+                        if (!Hash::check($value, Auth::user()->password)) {
+                            $error('Your Password is not Match');
+                        }
+                    }
+                ],
+                'newpassword' => 'required|min:6|max:255|string',
+                // 'confirmpassword' => 'required|same:newpassword',
+            ]
+        );
+        $encodePassword = Hash::make($request->newpassword);
+        User::where('id', '=', $user->id)->update(['password' => $encodePassword]);
+        return redirect()->back()->with('message', 'Update Your Infor Successfully');
     }
 }

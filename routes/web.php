@@ -47,3 +47,5 @@ Route::put('/infor-{user}', [LoginController::class, 'update'])->name('user.upda
 Route::get('/list', [LoginController::class, 'list'])->name('user.list');
 Route::get('/admin/update/{user}', [LoginController::class, 'adminEdit'])->name('admin.edit');
 Route::put('/admin/update/{user}', [LoginController::class, 'adminUpdate'])->name('admin.update');
+Route::get('/password/edit/{user}', [LoginController::class, 'changePassword'])->name('password.edit');
+Route::put('/password/edit/{user}', [LoginController::class, 'updatePassword'])->name('update.edit');
