@@ -33,7 +33,8 @@
                 <label for="" class="form-label">Danh Mục</label>
                 <select name="gene_id" id="">
                     @foreach ($gene as $gen)
-                        <option value="{{ $gen->id }}" @if ($movie->gene_id == $gen->id) selected @endif>
+                        <option value="{{ $gen->id }}" @if ($movie->gene_id == $gen->id) selected @endif
+                            @selected($gene->id == old('gene_id'))>
                             {{ $gen->name }}</option>
                     @endforeach
                 </select>

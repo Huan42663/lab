@@ -25,6 +25,7 @@
         <div class="container w-50">
             <h1>Thông Tin User: {{ Auth::user()->fullname }}</h1>
             <a href="{{ route('logout') }}"><button class="btn btn-danger">Đăng Xuất</button></a>
+            <a href="{{ route('movie.index') }}"><button class="btn btn-danger">Trang admin</button></a>
             @if (Auth::user()->role == 'admin')
                 <a href="{{ route('user.list') }}"><button class="btn btn-primary">danh sách user</button></a>
             @endif

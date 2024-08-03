@@ -21,6 +21,23 @@ class MovieController extends Controller
     }
     public function create(Request $request)
     {
+        $request->validate(
+            [
+                'title' => ['required', 'min:8'],
+                'poster' => ['nullable', 'image'],
+                'intro' => ['required', 'min:8'],
+                'release_date' => ['required'],
+                'gene_id' => ['required']
+            ],
+            [
+                'title.required'        => 'tiêu đề không được để trống',
+                'title.min'             => 'tiêu đề phải có ít nhất 8 ký tự',
+                'poster.image'          => 'file ảnh không đúng định dạng',
+                'intro.required'        => "Intro không được để trống",
+                'intro.min'             => "Intro không được ngắn hơn 8 ký tự",
+                'release_date.required' => "ngày phát hành không được để trống"
+            ]
+        );
         $data = $request->except('poster');
         $data['poster'] = "";
         if ($request->hasFile('poster')) {

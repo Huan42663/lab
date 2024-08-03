@@ -16,6 +16,13 @@
     <div class="container">
         <h1>Thêm Sách</h1>
         <div class="mb-3">
+            @if ($errors->any())
+                <div class="alert alert-danger mt3">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </div>
+            @endif
             <form action="{{ route('movie.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 {{-- @method('PUT') --}}
